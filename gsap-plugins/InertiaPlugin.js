@@ -1,14 +1,3 @@
-/*!
- * InertiaPlugin 3.8.0
- * https://greensock.com
- * 
- * @license Copyright 2021, GreenSock. All rights reserved.
- * *** DO NOT DEPLOY THIS FILE ***
- * This is a trial version that only works locally and on domains like codepen.io and codesandbox.io.
- * Loading it on an unauthorized domain violates the license and will cause a redirect.
- * Get the unrestricted file by joining Club GreenSock at https://greensock.com/club
- * @author: Jack Doyle, jack@greensock.com
- */
 ! function(t, e) {
     "object" == typeof exports && "undefined" != typeof module ? e(exports) : "function" == typeof define && define.amd ? define(["exports"], e) : e((t = t || self).window = t.window || {})
 }(this, function(e) {

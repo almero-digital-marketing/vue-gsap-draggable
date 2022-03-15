@@ -34,11 +34,9 @@ const props = defineProps({
     },
     allowNativeTouchScrolling: {
         type: Boolean,
-        default: true
     },
     autoScroll: {
         type: Number,
-        default: 3
     },
     bounds: {
         type: Object,
@@ -46,10 +44,6 @@ const props = defineProps({
     },
     clickableTest: {
         type: Function,
-    },
-    bounds: {
-        type: Object,
-        default: {}
     },
     cursor: {
         type: String,
