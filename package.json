@@ -1,6 +1,6 @@
 {
   "name": "vue-gsap-draggable",
-  "version": "1.0.0",
+  "version": "1.0.11",
   "description": "",
   "scripts": {
     "dev": "cp -rf gsap-plugins node_modules/ && vite --host",
@@ -13,12 +13,6 @@
   ],
   "main": "./dist/vue-gsap-draggable.umd.js",
   "module": "./dist/vue-gsap-draggable.es.js",
-  "exports": {
-    ".": {
-      "import": "./dist/vue-gsap-draggable.es.js",
-      "require": "./dist/vue-gsap-draggable.umd.js"
-    }
-  },
   "peerDependencies": {
     "gsap": "^3.9.0",
     "vue": "^3.2.1"

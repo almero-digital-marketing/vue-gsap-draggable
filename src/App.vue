@@ -1,6 +1,6 @@
 <template>
     <div class="item">
-        <button @click="progress = { x: .5 }">Center</button>
+        <button @click="progress = .5">Center</button>
         {{ progress }}
         <Draggable v-slot="drag" name="drag1" class="drag1" v-model="progress" :velocity="true">
           <div class="circle">{{ Math.round(drag.velocity * 100)/100 }}</div>
@@ -70,7 +70,6 @@ const progress = ref(.5)
   height: 100%;
   background: linear-gradient(to bottom, red, blue);
   border-radius: 50%;
-  transition: all .2s;
   transform: rotate(calc(-120deg * var(--velocity-drag1)));
   line-height: 80px;
   text-align: center;

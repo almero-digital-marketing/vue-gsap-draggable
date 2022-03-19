@@ -12,11 +12,11 @@
 </template>
 <script setup>
 
-import { ref, computed, toRefs, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, computed, toRefs, onMounted, onBeforeUnmount, watch, unref } from 'vue'
 import draggable from '../lib/draggable'
 import debounce from 'debounce'
 
-const emit = defineEmits(['update:modelValue', 'click', 'drag', 'dragEnd', 'dragStart', 'lockAxis', 'move', 'press', 'pressInit', 'release', 'throw', 'throwComplete', 'throwUpdate'])
+const emit = defineEmits(['update:modelValue', 'click', 'drag', 'drag-end', 'drag-start', 'lock-axis', 'move', 'press', 'press-init', 'release', 'throw', 'throw-complete', 'throw-update'])
 const props = defineProps({
     name: {
         type: String
@@ -144,6 +144,7 @@ const bounds = computed(() => {
 
 Object.assign(options, {
     element: handle,
+    scope: unref(options.scope) ? options.scope : scrubber,
     bounds,
     onClick: e => {
         emit('click', e)
@@ -152,13 +153,13 @@ Object.assign(options, {
         emit('drag', e)
     }, 
     onDragEnd: e => {
-        emit('dragEnd', e)
+        emit('drag-end', e)
     }, 
     onDragStart: e => {
-        emit('dragStart', e)
+        emit('drag-start', e)
     }, 
     onLockAxis: e => {
-        emit('lockAxis', e)
+        emit('lock-axis', e)
     }, 
     onMove: e => {
         emit('move', e)
@@ -167,16 +168,16 @@ Object.assign(options, {
         emit('press', e)
     }, 
     onPressInit: e => {
-        emit('pressInit', e)
+        emit('press-init', e)
     }, 
     onRelease: e => {
         emit('release', e)
     }, 
     onThrowComplete: e => {
-        emit('throwComplete', e)
+        emit('throw-complete', e)
     }, 
     onThrowUpdate: e => {
-        emit('throwUpdate', e)
+        emit('throw-update', e)
     }, 
 })
 const { dragging, velocity, progress } = draggable(options)

@@ -42,9 +42,10 @@ function draggable(options, currentInstance) {
         }
         
         if (progress.value != unref(options.modelValue)) {
-            gsap.set(scope, {
+            gsap.to(scope, {
                 [`--progress-${ name }`]: progress.value,
-                ease: unref(options.ease) 
+                duration: .2,
+                ease: unref(options.ease),
             })
         }
     }
@@ -66,9 +67,11 @@ function draggable(options, currentInstance) {
 
                 const scope = unref(options.scope) || unref(options.element)
                 if (scope) {
-                    gsap.set(scope, {
+                    gsap.to(scope, {
                         [`--velocity-${ name }`]: velocity.value,
-                        ease: unref(options.velocityEase)
+                        ease: unref(options.velocityEase),
+                        // overwrite: true,
+                        duration: .2
                     })
                     if (velocity.value != 0) {
                         return trackVelocity({ minX, maxX, minY, maxY, minRotation, maxRotation })
@@ -114,6 +117,7 @@ function draggable(options, currentInstance) {
             onDragParams: unref(options.onDragParams), 
             onDragEnd: function() {
                 if (!unref(options.inertia)) {
+                    updateValue = {}
                     dragging.value = false
                 }
 
@@ -153,10 +157,10 @@ function draggable(options, currentInstance) {
             onReleaseParams: unref(options.onReleaseParams), 
             onThrowComplete: function() {
                 dragging.value = false
+                updateValue = {}
 
                 const onThrowComplete = unref(options.onThrowComplete)
                 if(onThrowComplete) onThrowComplete(this)
-
             }, 
             onThrowUpdate: function() {
                 updateScope(this)
@@ -187,7 +191,7 @@ function draggable(options, currentInstance) {
     }
 
     function destroyDraggable() {
-        if (draggable) {
+        if (draggable && draggable) {
             draggable[0].kill()
             draggable = null
             InertiaPlugin.untrack(unref(options.element))
@@ -197,18 +201,28 @@ function draggable(options, currentInstance) {
 
     let updateValue = {}
     function updateDraggable() {
-        if (!dragging.value && draggable && unref(options.modelValue)) {
+        const progress = unref(options.modelValue)
+        if (!dragging.value && draggable && draggable[0] && progress != undefined) {
             const { x, y, rotation, minX, maxX, minY, maxY, minRotation, maxRotation } = draggable[0]
-            const vars = {}
-            const progress = unref(options.modelValue)
-            let changed = false
+            const vars = {
+                duration: .2,
+                overwrite: 'auto',
+                onComplete() {
+                    draggable[0].update({
+                        // applyBounds: true,
+                        // sticky: true
+                    })
+                    updateScope(draggable[0])
+                },
+            }
+            let changed = 0
             if (unref(options.type).indexOf('x') > -1) {
                 if (minX >= 0) {
                     vars.x = minX + (maxX - minX) * progress
                 } else {
                     vars.x = minX + (maxX - minX) * (1 - progress)
                 }
-                if (precissionRound(vars.x) != updateValue.x && vars.x != x) changed = true
+                if (precissionRound(vars.x) != updateValue.x && vars.x != x) changed = Math.abs(vars.x - x)
             }
             if (unref(options.type).indexOf('y') > -1) {
                 if (minX >= 0) {
@@ -216,11 +230,11 @@ function draggable(options, currentInstance) {
                 } else {
                     vars.y = minY + (maxY - minY) * (1 - progress)
                 }
-                if (precissionRound(vars.y) != updateValue.y && vars.y != y) changed = true
+                if (precissionRound(vars.y) != updateValue.y && vars.y != y) changed = Math.abs(vars.y - y)
             }
             if (unref(options.type).indexOf('rotation') > -1) {
                 vars.rotation = minRotation + (maxRotation - minRotation) * progress
-                if (precissionRound(vars.rotation) != updateValue.rotation && vars.rotation != rotation) changed = true
+                if (precissionRound(vars.rotation) != updateValue.rotation && vars.rotation != rotation) changed = Math.abs(vars.rotation - rotation)
             }
             updateValue = {
                 x: precissionRound(vars.x),
@@ -228,12 +242,7 @@ function draggable(options, currentInstance) {
                 rotation: precissionRound(vars.rotation)
             }
             if (changed) {
-                gsap.set(unref(options.element), vars)
-                draggable[0].update({
-                    // applyBounds: true,
-                    // sticky: true
-                })
-                updateScope(draggable[0])
+                gsap.to(unref(options.element), vars)
                 
                 if (trackingVelocity === false) {
                     trackVelocity(draggable[0])
