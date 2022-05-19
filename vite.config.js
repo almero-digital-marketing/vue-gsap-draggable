@@ -14,14 +14,15 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['vue', 'gsap'],
+      external: ['vue', 'gsap', 'gsap-external-plugins'],
       output: {
         exports: 'named',
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {
-          gsap: 'Gsap',
-          vue: 'Vue'
+          'gsap': 'Gsap',
+          'vue': 'Vue',
+          'gsap-external-plugins': 'GsapExternalPlugins'
         }
       }
     }

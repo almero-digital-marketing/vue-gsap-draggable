@@ -1,9 +1,9 @@
 {
   "name": "vue-gsap-draggable",
-  "version": "1.0.11",
+  "version": "1.1.4",
   "description": "",
   "scripts": {
-    "dev": "cp -rf gsap-plugins node_modules/ && vite --host",
+    "dev": "vite --host",
     "build": "vite build",
     "serve": "vite preview",
     "prepare": "npm run build"
@@ -14,15 +14,16 @@
   "main": "./dist/vue-gsap-draggable.umd.js",
   "module": "./dist/vue-gsap-draggable.es.js",
   "peerDependencies": {
-    "gsap": "^3.9.0",
-    "vue": "^3.2.1"
+    "gsap": "^3.10.2",
+    "gsap-external-plugins": "^1.0.1",
+    "vue": "^3.2.31"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.6.0",
-    "@vue/compiler-sfc": "^3.0.5",
+    "@vitejs/plugin-vue": "^2.3.1",
+    "@vue/compiler-sfc": "^3.2.31",
     "debounce": "^1.2.1",
     "gsap": "^3.9.0",
-    "vite": "^2.5.1"
+    "vite": "^2.9.1"
   },
   "repository": {
     "type": "git",
@@ -33,5 +34,7 @@
   "bugs": {
     "url": "https://github.com/almero-digital-marketing/vue-gsap-draggable/issues"
   },
-  "homepage": "https://github.com/almero-digital-marketing/vue-gsap-draggable#readme"
+  "homepage": "https://github.com/almero-digital-marketing/vue-gsap-draggable#readme",
+  "dependencies": {
+  }
 }

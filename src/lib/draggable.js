@@ -1,9 +1,9 @@
 import { onBeforeUnmount, onMounted, nextTick, watch, unref, isRef, ref } from 'vue'
 import { gsap } from 'gsap'
 import Draggable from 'gsap/dist/Draggable'
-import InertiaPlugin from 'gsap-plugins/InertiaPlugin'
+import Inertia from 'gsap-external-plugins/InertiaPlugin'
 
-gsap.registerPlugin(Draggable, InertiaPlugin)
+gsap.registerPlugin(Draggable, Inertia)
 
 function draggable(options, currentInstance) {
     
@@ -177,7 +177,7 @@ function draggable(options, currentInstance) {
         })
 
         if (unref(options.velocity)) {
-            tracker = InertiaPlugin.track(unref(options.element), unref(options.type))
+            tracker = gsap.plugins.inertia?.track(unref(options.element), unref(options.type))
         }
     }
     
@@ -194,7 +194,7 @@ function draggable(options, currentInstance) {
         if (draggable && draggable) {
             draggable[0].kill()
             draggable = null
-            InertiaPlugin.untrack(unref(options.element))
+            gsap.plugins.inertia?.untrack(unref(options.element))
             tracker = null
         }
     }
